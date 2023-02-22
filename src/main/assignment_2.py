@@ -85,6 +85,39 @@ def hermite_interpolation(x_vals, y_vals, slopes):
 
     print(matrix)
 
+def cubic_spline(x_vals, y_vals):
+
+    num_points = len(x_vals)
+
+    h = np.zeros(num_points-1)
+    b = np.zeros(num_points)    #vector b
+    c = np.zeros(num_points)    #vector x
+
+    for i in range(num_points-1):
+        h[i] = x_vals[i+1] - x_vals[i]
+
+        if i == 0:
+            continue
+        else:
+            b[i] = 3/h[i]*(y_vals[i+1] - y_vals[i]) - 3/h[i-1]*(y_vals[i] - y_vals[i-1])
+            #fill vector b
+
+
+    A = np.zeros((num_points, num_points))  #create matrix A
+    A[0][0] = 1
+    A[-1][-1] = 1
+
+    for i in range(1, num_points-1):
+        A[i][i-1] = h[i-1]
+        A[i][i+1] = h[i]
+        A[i][i] = 2*(h[i-1] + h[i])
+
+    #use Ax = b to solve for x vector
+    c = np.linalg.solve(A, b)
+
+    print(A)
+    print(b)
+    print(c)
 
 # 1. Using Neville’s method, find the 2nd degree interpolating value for f(3.7) for the following set of data
     #x = [3.6, 3.8, 3.9]
@@ -119,9 +152,8 @@ hermite_interpolation(x, y, y_prime)
 # 5. Using cubic spline interpolation, solve for the following using this set of data
 x = [2, 5, 8, 10]
 y = [3, 5, 7, 9]
-
     # a) matrix A
-
     # b) vector b
-
     # c) vector x
+
+cubic_spline(x, y)
