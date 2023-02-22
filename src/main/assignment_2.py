@@ -2,13 +2,11 @@ import numpy as np
 
 np.set_printoptions(precision=7, suppress=True, linewidth=100)
 
-
 def neville_method(x_vals, y_vals, x):
     matrix = np.zeros((len(x_vals), len(x_vals)))
 
     for counter, row in enumerate(matrix):    #populate y values column
         row[0] = y_vals[counter]
-    num_points = counter
 
     for i in range(1, len(x_vals)):
         for j in range(1, i+1):
@@ -20,7 +18,6 @@ def neville_method(x_vals, y_vals, x):
 
             coefficient = (first_multiplication - second_multiplication)/denominator
             matrix[i][j] = coefficient
-
 
     print(coefficient)
 
@@ -37,7 +34,7 @@ def newton_forward_coefficients(x_vals, y_vals):
             numerator = matrix[i][j-1] - matrix[i-1][j-1]
             denominator = x_vals[i] - x_vals[i-j]
             div_difference = numerator/denominator
-            matrix[i][j] =  '{0:.7g}'.format(div_difference)
+            matrix[i][j] =  div_difference
 
     coeffs = []
     for i in range(1, len(x_vals)):
@@ -82,7 +79,7 @@ def hermite_interpolation(x_vals, y_vals, slopes):
             numerator: float = matrix[i][j-1] - matrix[i-1][j-1]
             # denominator = current x - starting x
             denominator = matrix[i][0] - matrix[i-j+1][0]
-            
+
             operation = numerator/denominator
             matrix[i][j] = operation
 
@@ -118,3 +115,13 @@ y = [1.675, 1.436, 1.318]
 y_prime = [-1.195, -1.188, -1.182]
 
 hermite_interpolation(x, y, y_prime)
+
+# 5. Using cubic spline interpolation, solve for the following using this set of data
+x = [2, 5, 8, 10]
+y = [3, 5, 7, 9]
+
+    # a) matrix A
+
+    # b) vector b
+
+    # c) vector x
